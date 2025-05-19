@@ -1,2 +1,3 @@
 # alp
-childrens learning app
+childrens smart learning app
+
