@@ -1,22 +1,20 @@
-// server.js
 const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-require('dotenv').config();
+const dotenv = require('dotenv');
+const connectDB = require('./db');
+
+dotenv.config(); // Load .env
+connectDB();     // Connect to MongoDB
 
 const app = express();
-app.use(cors());
-app.use(express.json());
+app.use(express.json()); // Middleware to parse JSON
 
-// Routes
-app.use('/api/lesson', require('./routes/lessonRoutes'));
-app.use('/api/progress', require('./routes/progressRoutes'));
-app.use('/api/emotion', require('./routes/emotionRoutes'));
+// Routes (you can import and use your routes here)
+app.use('/api/emotion', require('./routes/emotionroutes'));
+app.use('/api/lessons', require('./routes/lessonroutes'));
+app.use('/api/progress', require('./routes/progressroutes'));
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('MongoDB connected'))
-  .catch((err) => console.error(err));
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
+});
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
