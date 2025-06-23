@@ -2,39 +2,50 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Emotion Detection via Webcam</title>
+  <title>Live Emotion Detection</title>
 </head>
 <body>
   <h2>Live Emotion Detection</h2>
+
+  <!-- Video element that shows webcam stream -->
   <video id="video" width="320" height="240" autoplay muted></video>
+
+  <!-- Placeholder for emotion result -->
   <p id="result">Detecting...</p>
+
+  <!-- Canvas element to draw current frame (used internally) -->
   <canvas id="canvas" width="320" height="240" style="display: none;"></canvas>
 
   <script>
-    const video = document.getElementById('video');
-    const canvas = document.getElementById('canvas');
-    const result = document.getElementById('result');
+    const video = document.getElementById('video');     // Video element
+    const canvas = document.getElementById('canvas');   // Hidden canvas
+    const result = document.getElementById('result');   // Paragraph to show emotion
 
+    // Request access to webcam
     navigator.mediaDevices.getUserMedia({ video: true })
       .then(stream => {
         video.srcObject = stream;
 
-        // Automatically capture after 2 seconds
+        // Capture image automatically after 2 seconds
         setTimeout(() => {
           detectEmotion();
         }, 2000);
       })
       .catch(err => {
+        // If webcam access fails
         console.error("Webcam error:", err);
         result.textContent = "Webcam not accessible.";
       });
 
+    // Function to capture webcam image and send to backend
     function detectEmotion() {
       const ctx = canvas.getContext('2d');
-      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);  // Draw video frame to canvas
 
-      const base64Image = canvas.toDataURL("image/png"); // Convert to base64 PNG
+      // Convert canvas to base64 PNG string
+      const base64Image = canvas.toDataURL("image/png");
 
+      // Send image to FastAPI backend
       fetch("http://127.0.0.1:8000/predict-base64", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -42,9 +53,11 @@
       })
         .then(res => res.json())
         .then(data => {
+          // Display the predicted emotion
           result.textContent = "Detected Emotion: " + (data.emotion || data.error || "Unknown");
         })
         .catch(err => {
+          // Catch any error during request
           console.error("Prediction error:", err);
           result.textContent = "Error predicting emotion.";
         });
