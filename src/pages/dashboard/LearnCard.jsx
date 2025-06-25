@@ -1,17 +1,22 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import bookIcon from "../../assets/icons/book.png";
-import "./childDashboard.css";
 
 const LearnCard = () => {
   const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate("/learn");
+  };
+
   return (
-    <div className="card learn-card" onClick={() => navigate("/learn")}>
-      <img src={bookIcon} alt="Learn" />
+    <div className="card" onClick={handleClick}>
+      <img src={bookIcon} alt="Learn" className="card-icon" />
       <h3>Learn</h3>
     </div>
   );
 };
 
 export default LearnCard;
+
 

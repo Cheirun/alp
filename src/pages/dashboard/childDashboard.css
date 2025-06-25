@@ -1,17 +1,36 @@
 .dashboard-container {
   display: flex;
   height: 100vh;
-  background-color: #fff7f2;
+  background-color: #07123c;
 }
 
+/* Main content area beside the sidebar */
 .dashboard-content {
   flex: 1;
-  padding: 30px;
+  padding: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+/* Wrapper to center both heading and card grid */
+.dashboard-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Welcoming heading */
+.dashboard-heading {
+  font-size: 2.2rem;
+  font-weight: bold;
+  margin-bottom: 30px;
+  color: #fdfdfd;
+  text-align: center;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+
+/* Grid layout for cards */
 .dashboard-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -20,8 +39,9 @@
   width: 100%;
 }
 
+/* Individual card styles */
 .dashboard-card {
-  background-color: #ffd4c5;
+  background-color: #b2b9c1;
   border-radius: 20px;
   padding: 20px;
   text-align: center;
@@ -30,19 +50,22 @@
   cursor: pointer;
 }
 
+/* Hover effect for cards */
 .dashboard-card:hover {
   transform: translateY(-5px);
 }
 
+/* Card icon styling */
 .dashboard-icon {
   width: 60px;
   height: 60px;
   margin-bottom: 12px;
 }
 
+/* Card title styling */
 .dashboard-title {
   font-size: 1.1rem;
   font-weight: bold;
-  color: #333;
+  color: #180c0c;
   font-family: 'Comic Sans MS', cursive, sans-serif;
 }
