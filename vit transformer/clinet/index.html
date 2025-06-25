@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Live Emotion Detection</title>
+</head>
+<body>
+  <h2>Live Emotion Detection</h2>
+
+  <!-- Webcam stream -->
+  <video id="video" width="320" height="240" autoplay muted></video>
+
+  <!-- Result -->
+  <p id="result">Detecting...</p>
+
+  <!-- Hidden canvas to capture frame -->
+  <canvas id="canvas" width="320" height="240" style="display: none;"></canvas>
+
+  <script>
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const result = document.getElementById('result');
+
+    // Access webcam
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(stream => {
+        video.srcObject = stream;
+
+        // Run emotion detection every 3 seconds
+        setInterval(() => {
+          detectEmotion();
+        }, 3000);
+      })
+      .catch(err => {
+        console.error("Webcam error:", err);
+        result.textContent = "Webcam not accessible.";
+      });
+
+    // Detect emotion by sending frame to backend
+    function detectEmotion() {
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const base64Image = canvas.toDataURL("image/png");
+
+      fetch("http://127.0.0.1:8000/predict-base64", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ image_base64: base64Image })
+      })
+        .then(res => res.json())
+        .then(data => {
+          result.textContent = "Detected Emotion: " + (data.emotion || data.error);
+        })
+        .catch(err => {
+          console.error("Prediction error:", err);
+          result.textContent = "Error predicting emotion.";
+        });
+    }
+  </script>
+</body>
+</html>
