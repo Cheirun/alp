@@ -38,9 +38,14 @@ app.use('/api/question-log', questionLogRoutes);
 const progressRoutes = require("./routes/progress");
 app.use("/api/progress", progressRoutes);
 
+const expressionRoutes = require('./routes/expression');
+app.use('/api/expression', expressionRoutes);
+
+
 app.get("/api/users", async (req, res) => {
     const users = await User.find();
     res.json(users);
+
 });
 
 const PORT = process.env.PORT || 5000;
