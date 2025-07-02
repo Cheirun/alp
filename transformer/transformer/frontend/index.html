@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Emotion Detector</title>
+  <style>
+    body { font-family: Arial; text-align: center; margin-top: 40px; }
+    video { border: 2px solid #000; border-radius: 10px; }
+    #emotion { font-size: 24px; margin-top: 20px; color: green; }
+  </style>
+</head>
+<body>
+  <h1>Facial Expression Detector</h1>
+  <video id="webcam" autoplay width="320" height="240"></video>
+  <canvas id="canvas" width="320" height="240" style="display:none;"></canvas>
+  <div id="emotion">Detecting...</div>
+
+  <script>
+    const video = document.getElementById("webcam");
+    const canvas = document.getElementById("canvas");
+    const emotionText = document.getElementById("emotion");
+    const ctx = canvas.getContext("2d");
+
+    async function setupWebcam() {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      video.srcObject = stream;
+    }
+
+    async function captureAndSend() {
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const dataURL = canvas.toDataURL("image/jpeg");
+
+      const response = await fetch("http://localhost:8000/predict", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ image: dataURL }),
+      });
+
+      const result = await response.json();
+      emotionText.textContent = `😊 Emotion: ${result.prediction}`;
+    }
+
+    setupWebcam().then(() => {
+      setInterval(captureAndSend, 3000); // Every 3 seconds
+    });
+  </script>
+</body>
+</html>
