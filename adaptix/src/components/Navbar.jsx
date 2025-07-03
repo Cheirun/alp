@@ -6,27 +6,39 @@ const Navbar = () => {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem('currentUser'));
 
+  // Only show navbar if user is logged in
+  if (!user) {
+    return null;
+  }
+
   // Determine dashboard path based on user role
   let dashboardPath = '/dashboard/student';
-  if (user) {
-    switch (user.role) {
-      case 'parent':
-        dashboardPath = '/dashboard/parent';
-        break;
-      case 'therapist':
-        dashboardPath = '/dashboard/therapist';
-        break;
-      case 'organization':
-        dashboardPath = '/dashboard/organization';
-        break;
-      default:
-        dashboardPath = '/dashboard/student';
-    }
+  switch (user.role) {
+    case 'parent':
+      dashboardPath = '/dashboard/parent';
+      break;
+    case 'therapist':
+      dashboardPath = '/dashboard/therapist';
+      break;
+    case 'organization':
+      dashboardPath = '/dashboard/organization';
+      break;
+    default:
+      dashboardPath = '/dashboard/student';
   }
+
+  const handleBack = () => {
+    navigate(-1);
+  };
 
   return (
     <nav className="navbar">
-      <div className="navbar-logo" onClick={() => navigate('/')}>ADAPTIX</div>
+      <div className="navbar-left">
+        <button className="back-button" onClick={handleBack}>
+          ← Back
+        </button>
+        <div className="navbar-logo" onClick={() => navigate('/')}>ADAPTIX</div>
+      </div>
       <div className="navbar-links">
         <NavLink to="/" className={({ isActive }) => isActive ? 'active' : ''} end>Home</NavLink>
         <NavLink to="/activities" className={({ isActive }) => isActive ? 'active' : ''}>Activities</NavLink>
