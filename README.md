@@ -26,8 +26,7 @@ Approved by AICTE, New Delhi & Affiliated to Osmania University,
 Hyderabad
 CERTIFICATE
 This is to certify that the project work entitled “ADAPTIVE LEARNING PATH” is a
-bonafide work carried out by “Gayaru Charan - 245523748303, Ved Thakur 245523748125, Ananya Maroju - 245523748041, Pothuganti Yakshitha - 245523733175,
-Mangali Mahitha - 245523748039, Karrepu Sri Vishishta 245523748028” of II-year IV semester Bachelor of Engineering in CSE (AIML) during
+bonafide work carried out by “Gayaru Charan - 245523748303, Ved Thakur 245523748125, Ananya Maroju - 245523748041, Pothuganti Yakshitha - 245523733175,Mangali Mahitha - 245523748039, Karrepu Sri Vishishta 245523748028” of II-year IV semester Bachelor of Engineering in CSE (AIML) during
 the academic year 2024-2025 and is a record of bonafide work carried out by them.
 
 Project Mentor
